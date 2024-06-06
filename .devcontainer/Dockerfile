@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal
+FROM registry.access.redhat.com/ubi9
 
 USER root
 RUN yum install -y yum-utils && \

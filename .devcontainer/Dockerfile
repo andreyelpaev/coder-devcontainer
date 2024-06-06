@@ -2,5 +2,5 @@ FROM debian:bullseye-slim
 
 USER root
 RUN apt-get update -y && \
-    apt-get install git
+    apt-get install git - y
     

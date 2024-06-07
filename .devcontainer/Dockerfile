@@ -1,6 +1,5 @@
-FROM debian:bullseye-slim
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 USER root
-RUN apt-get update -y && \
-    apt-get install git -y
+RUN apt-get update -y
     

@@ -1,1 +1,1 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu
+FROM codercom/enterprise-base:ubuntu

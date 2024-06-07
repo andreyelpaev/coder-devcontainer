@@ -1,3 +1,1 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu
-
-USER root    
+FROM mcr.microsoft.com/devcontainers/base:debian-11

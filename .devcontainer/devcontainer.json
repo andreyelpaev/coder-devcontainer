@@ -5,7 +5,9 @@
 	},
 	"features": {
 		"ghcr.io/devcontainers/features/dotnet:1": {},
-		"ghcr.io/devcontainers/features/node:1": {}
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers-contrib/features/angular-cli:2": {},
+		""
 	},
-	"postStartCommand": "dotnet dev-certs https --trust"
+	"postStartCommand": ". ${NVM_DIR}/nvm.sh && nvm install --lts"
 }

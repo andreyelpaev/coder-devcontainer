@@ -6,10 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install the Docker apt repository
 RUN apt-get update && \
     apt-get upgrade --yes && \
-    apt-get install --yes ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
-COPY docker-archive-keyring.gpg /usr/share/keyrings/docker-archive-keyring.gpg
-COPY docker.list /etc/apt/sources.list.d/docker.list
+    apt-get install --yes ca-certificates
 
 # Install baseline packages
 RUN apt-get update && \

@@ -1,1 +1,1 @@
-FROM codercom/enterprise-base:ubuntu
+FROM registry.access.redhat.com/ubi9/ubi

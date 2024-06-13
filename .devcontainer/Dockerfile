@@ -4,9 +4,16 @@ SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install the Docker apt repository
-RUN apt-get update && \
-    apt-get upgrade --yes && \
-    apt-get install --yes ca-certificates
+RUN apt-get update -y && \
+    apt-get install ca-certificates curl -y && \
+    install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
+    chmod a+r /etc/apt/keyrings/docker.asc
+
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install baseline packages
 RUN apt-get update && \
@@ -21,11 +28,7 @@ RUN apt-get update && \
     docker-buildx-plugin \
     docker-compose-plugin \
     htop \
-    jq \
     locales \
-    man \
-    python3 \
-    python3-pip \
     software-properties-common \
     sudo \
     systemd \
@@ -33,10 +36,7 @@ RUN apt-get update && \
     unzip \
     vim \
     wget \
-    rsync && \
-    add-apt-repository ppa:git-core/ppa && \
-    apt-get install --yes git \
-    && rm -rf /var/lib/apt/lists/*
+    git
 
 # Enables Docker starting with systemd
 RUN systemctl enable docker

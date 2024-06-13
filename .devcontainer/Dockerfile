@@ -13,10 +13,6 @@ RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 ENV LANG=en_US.UTF-8
 
 
-RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && \
-    source ~/.bashrc && \ 
-    nvm install lts/*
-    
 RUN yum install dotnet-sdk-7.0 dotnet-runtime-7.0 aspnetcore-runtime-7.0 -y
 
 RUN useradd coder \
@@ -28,3 +24,9 @@ RUN useradd coder \
     echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
 
 USER coder
+
+RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && \
+    source ~/.bashrc && \ 
+    nvm install lts/*
+    
+RUN npm install -g pnpm yarn

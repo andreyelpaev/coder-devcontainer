@@ -1,1 +1,1 @@
-FROM registry.access.redhat.com/ubi9/ubi
+FROM mcr.microsoft.com/devcontainers/base:bullseye

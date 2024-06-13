@@ -29,4 +29,4 @@ RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | ba
     source ~/.bashrc && \ 
     nvm install lts/*
     
-RUN npm install -g pnpm yarn
+# RUN npm install -g pnpm yarn

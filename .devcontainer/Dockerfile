@@ -1,20 +1,56 @@
-FROM registry.access.redhat.com/ubi9/toolbox
+FROM debian:bookworm
 
-USER root
+SHELL ["/bin/bash", "-c"]
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN yum install -y yum-utils && \
-    yum-config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo && \
-    yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+# Install the Docker apt repository
+RUN apt-get update && \
+    apt-get upgrade --yes && \
+    apt-get install --yes ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+COPY docker-archive-keyring.gpg /usr/share/keyrings/docker-archive-keyring.gpg
+COPY docker.list /etc/apt/sources.list.d/docker.list
 
+# Install baseline packages
+RUN apt-get update && \
+    apt-get install --yes \
+    bash \
+    build-essential \
+    ca-certificates \
+    containerd.io \
+    curl \
+    docker-ce \
+    docker-ce-cli \
+    docker-buildx-plugin \
+    docker-compose-plugin \
+    htop \
+    jq \
+    locales \
+    man \
+    python3 \
+    python3-pip \
+    software-properties-common \
+    sudo \
+    systemd \
+    systemd-sysv \
+    unzip \
+    vim \
+    wget \
+    rsync && \
+    add-apt-repository ppa:git-core/ppa && \
+    apt-get install --yes git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Enables Docker starting with systemd
 RUN systemctl enable docker
 
+# Create a symlink for standalone docker-compose usage
 RUN ln -s /usr/libexec/docker/cli-plugins/docker-compose /usr/bin/docker-compose
 
+# Make typing unicode characters in the terminal work.
 ENV LANG=en_US.UTF-8
 
-
-RUN yum install dotnet-sdk-7.0 dotnet-runtime-7.0 aspnetcore-runtime-7.0 -y
-
+# Add a user `coder` so that you're not developing as the `root` user
 RUN useradd coder \
     --create-home \
     --shell=/bin/bash \
@@ -24,9 +60,3 @@ RUN useradd coder \
     echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
 
 USER coder
-
-RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && \
-    source ~/.bashrc && \ 
-    nvm install lts/*
-    
-# RUN npm install -g pnpm yarn
